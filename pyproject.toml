@@ -1,0 +1,24 @@
+[project]
+name = "time-r1"
+version = "0.1.0"
+description = "Time-R1 Paper Python Implementation"
+authors = [
+    { name = "Mateusz", email = "matdev83@github.com" },
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = "src"

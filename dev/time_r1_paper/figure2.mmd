@@ -1,0 +1,5 @@
+%% Figure 2 – Time‑R1 training pipeline
+flowchart TD
+    A[Build Prompt Template] --> B[SFT Warm‑up]
+    B --> C[RL via GRIP]
+    C --> D[Slow‑Thinking LLM Inference]
