@@ -1,0 +1,27 @@
+task_definition: |
+  Analyze the provided time series data for {{ task_name }}.
+  The objective is to predict the next {{ forecast_horizon }} values.
+
+dataset_description: |
+  Dataset: {{ dataset_name }}
+  Temporal Characteristics: {{ temporal_characteristics }}
+  Application Scenario: {{ application_scenario }}
+
+channel_information: |
+  Input signals (channels):
+  {% for channel in channels %}
+  - {{ channel.name }}: {{ channel.description }}
+  {% endfor %}
+
+testing_data: |
+  Historical data:
+  Timestamps: {{ timestamps | join(', ') }}
+  Values:
+  {% for series_name, values in historical_series.items() %}
+  - {{ series_name }}: {{ values | join(', ') }}
+  {% endfor %}
+
+format_instruction: |
+  Provide your reasoning within <think></think> tags.
+  Provide your final forecast answer within <answer></answer> tags.
+  The forecast should be a list of {{ forecast_horizon }} values.
