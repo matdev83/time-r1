@@ -1,10 +1,10 @@
 from pathlib import Path
-from typing import List, Tuple, Optional
+from typing import List, Optional, Tuple
 
 import pandas as pd
+import pytorch_lightning as pl
 import torch
 from torch.utils.data import DataLoader, Dataset
-import pytorch_lightning as pl
 
 COLS = ["timestamp", "open", "high", "low", "close", "volume"]
 
@@ -69,9 +69,7 @@ class NQDataset(Dataset):
         self.seq_len = seq_len
         # keep only numeric columns for tensor conversion
         self.data = (
-            df[["open", "high", "low", "close", "volume"]]
-            .astype("float32")
-            .to_numpy()
+            df[["open", "high", "low", "close", "volume"]].astype("float32").to_numpy()
         )
 
     def __len__(self) -> int:  # type: ignore[override]
@@ -103,7 +101,9 @@ class NQDataModule(pl.LightningDataModule):
         n = len(df)
         train_end = int(0.7 * n)
         val_end = int(0.9 * n)
-        self.train_ds = NQDataset(df.iloc[:train_end].reset_index(drop=True), self.seq_len)
+        self.train_ds = NQDataset(
+            df.iloc[:train_end].reset_index(drop=True), self.seq_len
+        )
         self.val_ds = NQDataset(
             df.iloc[train_end - self.seq_len : val_end].reset_index(drop=True),
             self.seq_len,

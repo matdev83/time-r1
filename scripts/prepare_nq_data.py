@@ -6,8 +6,12 @@ from time_r1.datasets.nq import build_continuous
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Prepare continuous NQ futures data")
-    parser.add_argument("--input-dir", default="data/NQ", help="Directory with raw NQ contract files")
-    parser.add_argument("--output", default="data/NQ_continuous.parquet", help="Output parquet file")
+    parser.add_argument(
+        "--input-dir", default="data/NQ", help="Directory with raw NQ contract files"
+    )
+    parser.add_argument(
+        "--output", default="data/NQ_continuous.parquet", help="Output parquet file"
+    )
     args = parser.parse_args()
     paths = list(Path(args.input_dir).glob("NQ *.Last.txt"))
     if not paths:
