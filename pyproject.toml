@@ -18,6 +18,11 @@ dependencies = [
 dev = [
     "pytest",
     "pytest-cov",
+    "black",
+    "isort",
+    "ruff",
+    "mypy",
+    "pre-commit",
 ]
 
 [build-system]
@@ -29,3 +34,18 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 pythonpath = "src"
+
+[tool.black]
+line-length = 88
+target-version = "py310"
+
+[tool.isort]
+profile = "black"
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.mypy]
+python_version = "3.10"
+check_untyped_defs = true
