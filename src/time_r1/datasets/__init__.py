@@ -5,6 +5,8 @@ from .nq import (
     parse_contract_filename,
     roll_date,
     read_contract,
+    NQDataModule,
+    NQDataset,
 )
 
 __all__ = [
@@ -12,4 +14,6 @@ __all__ = [
     "parse_contract_filename",
     "roll_date",
     "read_contract",
+    "NQDataModule",
+    "NQDataset",
 ]

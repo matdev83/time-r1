@@ -1,0 +1,14 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Data files
+/data/
+
+# Parquet outputs
+*.parquet
+
+# Build artifacts
+.env
+
