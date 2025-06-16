@@ -1,7 +1,8 @@
-import pandas as pd
 from pathlib import Path
 
-from time_r1.datasets import build_continuous, parse_contract_filename, NQDataModule
+import pandas as pd
+
+from time_r1.datasets import NQDataModule, build_continuous, parse_contract_filename
 
 FILES = sorted(Path("data/NQ").glob("NQ *.Last.txt"), key=parse_contract_filename)[:2]
 
@@ -29,4 +30,3 @@ def test_datamodule_lengths(tmp_path):
     dm.setup()
     total_len = len(dm.train_ds) + len(dm.val_ds) + len(dm.test_ds)
     assert total_len == len(df) - 10
-
