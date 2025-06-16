@@ -6,13 +6,6 @@ Welcome, Coding Agent! You are about to contribute to the **Time-R1** project, a
 
 The primary objective is to build a complete, reproducible Python project that trains, evaluates, and serves the **Time-R1** foundation model. This model is designed to enhance multi-step reasoning ability of LLMs for time series forecasting, leveraging a two-stage reinforcement fine-tuning framework (SFT Warm-Up followed by GRIP RL).
 
-## 📚 Onboarding Essentials: Your First Steps
-
-To ensure a smooth start and effective contribution, please follow this onboarding sequence:
-
-1. **Read the Project `README.md`**: Begin by thoroughly reviewing the main `README.md` file in the repository root. This provides a high-level overview of the project, its purpose, and initial setup instructions.
-2. **Understand the Agent Guidelines**: Next, read `AGENTS.md`. This document outlines the project's structure, describes the roles of different modules and directories, and details key software development principles that you, as a coding agent, must strictly adhere to.
-
 ## 🗺️ Where to Find More Details
 
 Once you have completed the initial onboarding, you can dive deeper into the project's specifics:
@@ -46,7 +39,7 @@ Your contributions will be evaluated against these standards and the acceptance 
 
 ## Current Task
 
-**Your current task is:** 
+**Your current task is:** Review progress of the project and proceed with the next unimplemented task from the `dev/PLAN.md` file.
 
 If the task involved creating or modifying any code, you are required to create related tests and ensure they pass.
 

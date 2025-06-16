@@ -4,11 +4,14 @@ __pycache__/
 *.egg-info/
 
 # Data files
-/data/
+#data/
 
 # Parquet outputs
 *.parquet
 
 # Build artifacts
 .env
+
+# Dev artifacts
+dev/INTRO.md
 
