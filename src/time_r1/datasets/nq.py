@@ -1,7 +1,10 @@
 from pathlib import Path
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 import pandas as pd
+import torch
+from torch.utils.data import DataLoader, Dataset
+import pytorch_lightning as pl
 
 COLS = ["timestamp", "open", "high", "low", "close", "volume"]
 
@@ -57,3 +60,78 @@ def build_continuous(paths: List[Path]) -> pd.DataFrame:
             df[["open", "high", "low", "close"]] += offset
             frames.append(df)
     return pd.concat(frames).reset_index(drop=True)
+
+
+class NQDataset(Dataset):
+    """Simple sequence dataset built from the continuous NQ dataframe."""
+
+    def __init__(self, df: pd.DataFrame, seq_len: int) -> None:
+        self.seq_len = seq_len
+        # keep only numeric columns for tensor conversion
+        self.data = (
+            df[["open", "high", "low", "close", "volume"]]
+            .astype("float32")
+            .to_numpy()
+        )
+
+    def __len__(self) -> int:  # type: ignore[override]
+        return max(0, len(self.data) - self.seq_len)
+
+    def __getitem__(self, idx: int) -> torch.Tensor:  # type: ignore[override]
+        window = self.data[idx : idx + self.seq_len]
+        return torch.from_numpy(window)
+
+
+class NQDataModule(pl.LightningDataModule):
+    """PyTorch Lightning DataModule for the continuous NQ dataset."""
+
+    def __init__(
+        self,
+        parquet_file: str,
+        seq_len: int = 60,
+        batch_size: int = 32,
+        num_workers: int = 0,
+    ) -> None:
+        super().__init__()
+        self.parquet_file = parquet_file
+        self.seq_len = seq_len
+        self.batch_size = batch_size
+        self.num_workers = num_workers
+
+    def setup(self, stage: Optional[str] = None) -> None:
+        df = pd.read_parquet(self.parquet_file)
+        n = len(df)
+        train_end = int(0.7 * n)
+        val_end = int(0.9 * n)
+        self.train_ds = NQDataset(df.iloc[:train_end].reset_index(drop=True), self.seq_len)
+        self.val_ds = NQDataset(
+            df.iloc[train_end - self.seq_len : val_end].reset_index(drop=True),
+            self.seq_len,
+        )
+        self.test_ds = NQDataset(
+            df.iloc[val_end - self.seq_len :].reset_index(drop=True), self.seq_len
+        )
+
+    def train_dataloader(self) -> DataLoader:
+        return DataLoader(
+            self.train_ds,
+            batch_size=self.batch_size,
+            shuffle=True,
+            num_workers=self.num_workers,
+        )
+
+    def val_dataloader(self) -> DataLoader:
+        return DataLoader(
+            self.val_ds,
+            batch_size=self.batch_size,
+            shuffle=False,
+            num_workers=self.num_workers,
+        )
+
+    def test_dataloader(self) -> DataLoader:
+        return DataLoader(
+            self.test_ds,
+            batch_size=self.batch_size,
+            shuffle=False,
+            num_workers=self.num_workers,
+        )

@@ -10,6 +10,8 @@ dependencies = [
     "pyarrow",
     "pyyaml",
     "jinja2",
+    "torch>=2.2.0",
+    "pytorch-lightning>=2.2.0",
 ]
 
 [project.optional-dependencies]
