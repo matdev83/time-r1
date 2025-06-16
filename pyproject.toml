@@ -5,7 +5,12 @@ description = "Time-R1 Paper Python Implementation"
 authors = [
     { name = "Mateusz", email = "matdev83@github.com" },
 ]
-dependencies = []
+dependencies = [
+    "pandas",
+    "pyarrow",
+    "pyyaml",
+    "jinja2",
+]
 
 [project.optional-dependencies]
 dev = [
